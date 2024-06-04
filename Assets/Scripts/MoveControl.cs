@@ -44,19 +44,11 @@ public class MoveControl : MonoBehaviour
 
         switch (m_diceSetup)
         {
-            case DiceSetup.DoubleKeepOne:
-                UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
-                break;
-            case DiceSetup.DoubleMoveBoth:
-                UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
-                break;
             case DiceSetup.DoubleMoveOne:
-                m_positions.m_diceSum.gameObject.SetActive(false);
                 UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
                 break;
             case DiceSetup.Single:
                 m_die2.gameObject.SetActive(false);
-                m_positions.m_diceSum.gameObject.SetActive(false);
                 UpdateVisiblePositions(m_die1.Reroll(), true);
                 break;
                 //default:
@@ -100,7 +92,6 @@ public class MoveControl : MonoBehaviour
         m_diePosition2.ActivatePositionDie(m_die2);
 
         int diceSumRoadIndex = (theTruck.currentRoadPosition + roll1 + roll2) % m_positions.numberOfLocations;
-        m_positions.m_diceSum.Move(m_positions.indexMapping[diceSumRoadIndex]);
     }
 
     public void MovePicked(OneDie callerDie)
@@ -138,23 +129,6 @@ public class MoveControl : MonoBehaviour
             theTruck.Move(possibleMove1RoadIndex , possibleMove1ArrayIndex);
             switch (m_diceSetup)
             {
-                case DiceSetup.DoubleKeepOne:
-                    UpdateVisiblePositions(m_die1.Reroll(), m_die2.value);
-                    break;
-                case DiceSetup.DoubleMoveBoth:
-                    if (m_die2.gameObject.activeSelf)
-                    {
-                        m_die1.gameObject.SetActive(false);
-                        m_positions.m_diceSum.gameObject.SetActive(false);
-                        UpdateVisiblePositions(m_die2.value, false);                        
-                    }
-                    else
-                    {
-                        m_die2.gameObject.SetActive(true);
-                        m_positions.m_diceSum.gameObject.SetActive(true);
-                        UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
-                    }
-                    break;
                 case DiceSetup.DoubleMoveOne:
                     UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
                     break;
@@ -171,23 +145,6 @@ public class MoveControl : MonoBehaviour
             theTruck.Move(possibleMove2RoadIndex, possibleMove2ArrayIndex);
             switch (m_diceSetup)
             {
-                case DiceSetup.DoubleKeepOne:
-                    UpdateVisiblePositions(m_die1.value, m_die2.Reroll());
-                    break;
-                case DiceSetup.DoubleMoveBoth:
-                    if (m_die1.gameObject.activeSelf)
-                    {
-                        m_die2.gameObject.SetActive(false);
-                        m_positions.m_diceSum.gameObject.SetActive(false);
-                        UpdateVisiblePositions(m_die1.value, true);
-                    }
-                    else
-                    {
-                        m_die1.gameObject.SetActive(true);
-                        m_positions.m_diceSum.gameObject.SetActive(true);
-                        UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
-                    }
-                    break;
                 case DiceSetup.DoubleMoveOne:
                     UpdateVisiblePositions(m_die1.Reroll(), m_die2.Reroll());
                     break;
@@ -209,8 +166,6 @@ public class MoveControl : MonoBehaviour
 
     public enum DiceSetup
     {
-        DoubleKeepOne,
-        DoubleMoveBoth,
         DoubleMoveOne,
         Single
     }

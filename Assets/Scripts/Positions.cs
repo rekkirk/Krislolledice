@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class Positions : MonoBehaviour
 {
     public RectTransform truck;
-    public DiceSum m_diceSum;
     public NumberOfLocations m_numberOfLocationsEnum;
     public Deliveries m_deliveries;
     public TurnCounter m_turnCounter;
@@ -32,6 +31,7 @@ public class Positions : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitiatePositions();
     }
 
     public void InitiatePositions()
@@ -61,10 +61,8 @@ public class Positions : MonoBehaviour
         m_deliveries.InitiateDeliveries();
         m_turnCounter.InitiateTurnCounter();
         m_truckStock.InitiateTruckStock();
-        m_diceSum.InitiateDiceSum();
         m_moveControl.InitiateMoveControl(initialPosition);
         m_stockControl.InitiateStock(numberOfLocations, initialPosition);
-        m_diceSum.InitiateDiceSum();
     }
 
     public Vector3 GetVector3(int arrayIndex)

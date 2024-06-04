@@ -134,15 +134,9 @@ public class StartGameInput : MonoBehaviour
         switch (m_diceTypesInput.value)
         {
             case 0:
-                m_moveControl.m_diceSetup = MoveControl.DiceSetup.DoubleKeepOne;
-                break;
-            case 1:
-                m_moveControl.m_diceSetup = MoveControl.DiceSetup.DoubleMoveBoth;
-                break;
-            case 2:
                 m_moveControl.m_diceSetup = MoveControl.DiceSetup.DoubleMoveOne;
                 break;
-            case 3:
+            case 1:
                 m_moveControl.m_diceSetup = MoveControl.DiceSetup.Single;
                 break;
         }
@@ -221,17 +215,11 @@ public class StartGameInput : MonoBehaviour
 
         switch (m_moveControl.m_diceSetup)
         {
-            case MoveControl.DiceSetup.DoubleKeepOne:
+            case MoveControl.DiceSetup.DoubleMoveOne:
                 m_diceTypesInput.SetValueWithoutNotify(0);
                 break;
-            case MoveControl.DiceSetup.DoubleMoveBoth:
-                m_diceTypesInput.SetValueWithoutNotify(1);
-                break;
-            case MoveControl.DiceSetup.DoubleMoveOne:
-                m_diceTypesInput.SetValueWithoutNotify(2);
-                break;
             case MoveControl.DiceSetup.Single:
-                m_diceTypesInput.SetValueWithoutNotify(3);
+                m_diceTypesInput.SetValueWithoutNotify(1);
                 break;
         }
 
