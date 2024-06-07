@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class LocStockButton : MonoBehaviour
 {
-    public StockControl m_stockControl;
+    public Positions m_positions;
+    [HideInInspector] public StockControl m_stockControl;
     [HideInInspector] public Button thisButton;
     [HideInInspector] public int thisIndex;
     [HideInInspector] public int parentIndex;
@@ -22,6 +23,7 @@ public class LocStockButton : MonoBehaviour
 
     public void InitiateButton()
     {
+        m_stockControl = m_positions.m_stockControl;
         thisButton = GetComponent<Button>();
     }
 
