@@ -28,10 +28,8 @@ public class MoveControl : MonoBehaviour
 
     public void InitiateMoveControl(int startLocation)
     {
-
         theTruck = GetComponent<TruckMove>();
         theTruck.positions = m_positions;
-        theTruck.currentRoadPosition = startLocation;
         theTruck.currentArrayPosition = startLocation;
         m_die1.dieID = 1;
         m_die2.dieID = 2;

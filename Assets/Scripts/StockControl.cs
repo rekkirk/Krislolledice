@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class StockControl : MonoBehaviour
@@ -8,6 +9,7 @@ public class StockControl : MonoBehaviour
     public int m_goodsPerLocation; 
     public int m_goodsToRefill;
     public int m_numberOfGoodsTypes;
+    [HideInInspector] private int numberOfLocations;
     public Positions m_positions;
     public TruckStock m_truckStock;
     public TruckMove m_truckMove;
@@ -62,20 +64,33 @@ public class StockControl : MonoBehaviour
         }
     }
 
-    public void InitiateStock(int numberOfLocations, int initialPosition)
+    private void InitiatePlayArea()
+    {
+        m_positions.m_positionButtons = new PositionButton[numberOfLocations];
+        m_positions.m_movePositions = new GameObject[numberOfLocations];
+        m_positions.LocationIndexing();
+
+        for (int i=0; i<numberOfLocations; i++)
+        {
+            GameObject parent = m_stockLocations[i].transform.parent.gameObject;
+            m_positions.m_positionButtons[i] = parent.GetComponentInChildren<PositionButton>();
+            m_positions.m_movePositions[i] = m_positions.m_positionButtons[i].gameObject;
+            parent.GetComponent<Image>().enabled = false;
+        }
+    }
+
+    public void InitiateStock()
     {
         Debug.Assert(m_goodsPerLocation >= 2, "wrong number of goods per location");
         Debug.Assert(m_numberOfGoodsTypes>0 && m_numberOfGoodsTypes < 7, "wrong number of goods types");
-
-        int totalGoods = (int)(m_goodsPerLocation * numberOfLocations);
+        numberOfLocations = m_stockLocations.Length;
+        InitiatePlayArea();
 
         for (int i= 0;i<numberOfLocations;i++)
         {
             int mappedIndex = m_positions.indexMapping[i];
             m_stockLocations[mappedIndex].InitiateStockLocation(FillOneLocation(false), mappedIndex);
         }
-        EnableLocationButtons(initialPosition);
-        m_stockLocations[initialPosition].PickLocation(true);
 
     }
 

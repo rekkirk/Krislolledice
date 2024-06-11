@@ -7,19 +7,13 @@ using UnityEngine.UI;
 public class Positions : MonoBehaviour
 {
     public RectTransform truck;
-    public NumberOfLocations m_numberOfLocationsEnum;
     public Deliveries m_deliveries;
     public TurnCounter m_turnCounter;
     public TruckStock m_truckStock;
-    public GameObject[] m_stockLocations;
-    public PositionButton[] m_positionButtons;
-    public GameObject[] m_movePositions;
-    private bool m_extra2locations1;
-    private bool m_extra2locations2;
-    private bool m_extra2locations3;
+    [HideInInspector] public PositionButton[] m_positionButtons;
+    [HideInInspector] public GameObject[] m_movePositions;
     public MoveControl m_moveControl;
     public StockControl m_stockControl;
-    public int initialPosition;
 
     [HideInInspector] public int[] indexMapping;
     private int numberOfAllLocations;
@@ -36,33 +30,14 @@ public class Positions : MonoBehaviour
 
     public void InitiatePositions()
     {
-        switch(m_numberOfLocationsEnum)
-        {
-            case NumberOfLocations.Eight :
-                m_extra2locations1 = false;
-                m_extra2locations2 = true;
-                m_extra2locations3 = false;
-                break;
-            case NumberOfLocations.Ten:
-                m_extra2locations1 = true;
-                m_extra2locations2 = false;
-                m_extra2locations3 = true;
-                break;
-            case NumberOfLocations.Twelfe:
-                m_extra2locations1 = true;
-                m_extra2locations2 = true;
-                m_extra2locations3 = true;
-                break;
-        }
-        LocationIndexing();
-        RemoveMissingLocations();
+        m_stockControl.InitiateStock();
         DefineRotations();
         InitiateButtons();
         m_deliveries.InitiateDeliveries();
         m_turnCounter.InitiateTurnCounter();
         m_truckStock.InitiateTruckStock();
-        m_moveControl.InitiateMoveControl(initialPosition);
-        m_stockControl.InitiateStock(numberOfLocations, initialPosition);
+        m_moveControl.InitiateMoveControl(numberOfLocations-1);
+
     }
 
     public Vector3 GetVector3(int arrayIndex)
@@ -113,66 +88,20 @@ public class Positions : MonoBehaviour
         }
     }
 
-    private void LocationIndexing()
+    public void LocationIndexing()
     {
         
-        numberOfAllLocations = m_stockLocations.Length;
-        numberOfLocations = numberOfAllLocations - 3 -2 * (
-                            Convert.ToInt32(!m_extra2locations1) +
-                            Convert.ToInt32(!m_extra2locations2) +
-                            Convert.ToInt32(!m_extra2locations3));
+        numberOfAllLocations = m_movePositions.Length;
+        numberOfLocations = numberOfAllLocations;
         indexMapping = new int[numberOfLocations];
-        indexMapping[0] = 0; indexMapping[1] = 1; indexMapping[2] = 2;
-
-        int rowIndex = 1;
-
-        if (m_extra2locations1)
+        for (int i = 0 ; i<indexMapping.Length; i++)
         {
-            indexMapping[2+rowIndex] = 5;
-            indexMapping[numberOfLocations-rowIndex] = 3;
-            rowIndex++;
+            indexMapping[i] = i;
         }
 
-        if (m_extra2locations2)
-        {
-            indexMapping[2+rowIndex] = 8;
-            indexMapping[numberOfLocations - rowIndex] = 6;
-            rowIndex++;
-        }
-
-        if (m_extra2locations3)
-        {
-            indexMapping[2 + rowIndex] = 11;
-            indexMapping[numberOfLocations - rowIndex] = 9;
-            rowIndex++;
-        }
-
-        indexMapping[2+rowIndex] = 14;
-        indexMapping[3+rowIndex] = 13;
-        indexMapping[4+rowIndex] = 12;
-
-        //for (int i = 0; i < indexMapping.Length; i++)
-        //{
-          //  Debug.Log("i=" + i + " arrayI =" + indexMapping[i]);
-        //}
     }
 
-    private void RemoveMissingLocations()
-    {
-        m_stockLocations[5].SetActive(m_extra2locations1);
-        m_stockLocations[3].SetActive(m_extra2locations1);
-        m_stockLocations[8].SetActive(m_extra2locations2);
-        m_stockLocations[6].SetActive(m_extra2locations2);
-        m_stockLocations[11].SetActive(m_extra2locations3);
-        m_stockLocations[9].SetActive(m_extra2locations3);
-        m_movePositions[5].SetActive(m_extra2locations1);
-        m_movePositions[3].SetActive(m_extra2locations1);
-        m_movePositions[8].SetActive(m_extra2locations2);
-        m_movePositions[6].SetActive(m_extra2locations2);
-        m_movePositions[11].SetActive(m_extra2locations3);
-        m_movePositions[9].SetActive(m_extra2locations3);
-    }
-
+ 
     private void DefineRotations()
     {
         fourRotations[0] = truck.rotation;
@@ -189,13 +118,6 @@ public class Positions : MonoBehaviour
         // Update is called once per frame
         void Update()
     {
-    }
-
-    public enum NumberOfLocations
-    {
-        Eight,
-        Ten,
-        Twelfe
     }
 
 }

@@ -14,7 +14,6 @@ public class StartGameInput : MonoBehaviour
     public TurnCounter m_turnCounter;
     public MoveControl m_moveControl;
 
-    public TMP_Dropdown m_numberOfLocationsInput;
     public TMP_Dropdown m_numberOfGoodsTypesInput;
     public TMP_InputField m_startGoodsPerLocationInput;
     public TMP_InputField m_goodsPerRefillInput;
@@ -45,18 +44,6 @@ public class StartGameInput : MonoBehaviour
 
     private void ReadInput()
     {
-        switch (m_numberOfLocationsInput.value)
-        {
-            case 0:
-                m_positions.m_numberOfLocationsEnum = Positions.NumberOfLocations.Eight;
-                break;
-            case 1:
-                m_positions.m_numberOfLocationsEnum = Positions.NumberOfLocations.Ten;
-                break;
-            case 2:
-                m_positions.m_numberOfLocationsEnum = Positions.NumberOfLocations.Twelfe;
-                break;
-        }
 
         switch (m_numberOfGoodsTypesInput.value)
         {
@@ -141,7 +128,6 @@ public class StartGameInput : MonoBehaviour
                 break;
         }
 
-        PlayerPrefs.SetInt(m_numberOfLocationsKey, (int)(m_positions.m_numberOfLocationsEnum));
         PlayerPrefs.SetInt(m_numberOfGoodsTypesKey, (int)(m_stockControl.m_numberOfGoodsTypes));
         PlayerPrefs.SetInt(m_startGoodsPerLocationKey, m_stockControl.m_goodsPerLocation);
         PlayerPrefs.SetInt(m_goodsPerRefillKey, m_stockControl.m_goodsToRefill);
@@ -161,7 +147,6 @@ public class StartGameInput : MonoBehaviour
             return;
         }
 
-        m_positions.m_numberOfLocationsEnum = (Positions.NumberOfLocations)PlayerPrefs.GetInt(m_numberOfLocationsKey);
         m_stockControl.m_numberOfGoodsTypes = PlayerPrefs.GetInt(m_numberOfGoodsTypesKey);
         m_stockControl.m_goodsPerLocation = PlayerPrefs.GetInt(m_startGoodsPerLocationKey);
         m_stockControl.m_goodsToRefill = PlayerPrefs.GetInt(m_goodsPerRefillKey);
@@ -175,18 +160,6 @@ public class StartGameInput : MonoBehaviour
 
     public void ValuesToInputFields()
     {
-        switch (m_positions.m_numberOfLocationsEnum)
-        {
-            case Positions.NumberOfLocations.Eight:
-                m_numberOfLocationsInput.SetValueWithoutNotify(0);
-                break;
-            case Positions.NumberOfLocations.Ten:
-                m_numberOfLocationsInput.SetValueWithoutNotify(1);
-                break;
-            case Positions.NumberOfLocations.Twelfe:
-                m_numberOfLocationsInput.SetValueWithoutNotify(2);
-                break;
-        }
 
         switch (m_stockControl.m_numberOfGoodsTypes)
         {

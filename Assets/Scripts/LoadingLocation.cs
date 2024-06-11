@@ -84,7 +84,7 @@ public class LoadingLocation : MonoBehaviour
         thisTransform = GetComponent<RectTransform>();
         originalPosition = new Vector2(thisTransform.anchoredPosition.x, thisTransform.anchoredPosition.y);
         originalScale = thisTransform.localScale;
-        growScale = new Vector3(1.3f * originalScale.x, 1.3f * originalScale.y, 1.3f * originalScale.z);
+        growScale = new Vector3(1.8f * originalScale.x, 1.8f * originalScale.y, 1.8f * originalScale.z);
 
         RefillStockLocation(iniStock);
         m_grow.gameObject.SetActive(false); //grow location only visible in editor
