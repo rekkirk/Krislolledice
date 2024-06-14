@@ -14,7 +14,7 @@ public class StockControl : MonoBehaviour
     public TruckStock m_truckStock;
     public TruckMove m_truckMove;
     public MessageFade m_userMessage;
-    public LoadingLocation[] m_stockLocations;
+    [HideInInspector] public LoadingLocation[] m_stockLocations;
     
 
     public void PickLocGoods(int locIndex, int goodsIndex)
@@ -83,7 +83,15 @@ public class StockControl : MonoBehaviour
     {
         Debug.Assert(m_goodsPerLocation >= 2, "wrong number of goods per location");
         Debug.Assert(m_numberOfGoodsTypes>0 && m_numberOfGoodsTypes < 7, "wrong number of goods types");
-        numberOfLocations = m_stockLocations.Length;
+
+        numberOfLocations = transform.childCount;
+        m_stockLocations = new LoadingLocation[numberOfLocations];
+        for (int i = 0; i < numberOfLocations; ++i)
+        {
+            m_stockLocations[i] = transform.GetChild(i).GetComponentInChildren<LoadingLocation>();
+            //Debug.Log("i ; child: " + i + " ; " + m_stockLocations[i].transform.parent.gameObject.name);
+        }
+
         InitiatePlayArea();
 
         for (int i= 0;i<numberOfLocations;i++)
